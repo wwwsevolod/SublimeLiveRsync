@@ -1,12 +1,16 @@
 {
     "sync_settings" : "urvz",
     "exclude" : "nothingtoexcludewtf",
+    "full_update_on_start" : false,
+    "ssh" : true,
+
     "folders" : {
         "/Users/wwwsevolod/Work/topface" : {
             "destination" : "vivanov@dev3.local:/home/vivanov/pretender/master",
             "exclude" : "*git*",
             "sync_settings" : "urvz",
-            "ssh" : true
+            "ssh" : true,
+            "full_update_on_start" : true,
         }
     }
 }
