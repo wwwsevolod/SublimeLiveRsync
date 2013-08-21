@@ -20,6 +20,7 @@ class LiveRsync(EventListener):
 
     def on_post_save_async(self, view):
         if self.controller.settings().get('auto_upload', True):
+            RsyncLogSingletone().log('Auto upload file:\n' + view.file_name())
             self.controller.rsync(view)
 
     def on_activated_async(self, view):
@@ -27,6 +28,7 @@ class LiveRsync(EventListener):
             return
         project = sublime.active_window().project_file_name()
         if project != self.project:
+            RsyncLogSingletone().log('Auto upload full project:\n' + project)
             self.project = project
             self.controller.rsync(view, True)
 
@@ -40,8 +42,11 @@ class LiveRsyncUploadCurrent(WindowCommand):
     controller = controller
 
     def run(self, action=''):
+        view = sublime.active_window().active_view()
+
         def callback():
-            self.controller.rsync(sublime.active_window().active_view())
+            RsyncLogSingletone().log('Manual upload file:\n' + view.file_name())
+            self.controller.rsync(view)
         sublime.set_timeout_async(callback, 0)
 
 
@@ -49,8 +54,11 @@ class LiveRsyncUploadFull(WindowCommand):
     controller = controller
 
     def run(self, action=''):
+        window = sublime.active_window()
+
         def callback():
-            self.controller.rsync(sublime.active_window().active_view(), True)
+            RsyncLogSingletone().log('Manual upload project:\n' + window.project_file_name())
+            self.controller.rsync(window.active_view(), True)
         sublime.set_timeout_async(callback, 0)
 
 
@@ -66,6 +74,7 @@ class LiveRsyncDisable(WindowCommand):
         return self.controller.settings().get('auto_upload', True)
 
     def run(self, action=''):
+        RsyncLogSingletone().log('Disabled auto upload')
         self.controller.settings().set('auto_upload', False)
 
 
@@ -76,4 +85,5 @@ class LiveRsyncEnable(WindowCommand):
         return not self.controller.settings().get('auto_upload', True)
 
     def run(self, action=''):
+        RsyncLogSingletone().log('Enabled auto upload')
         self.controller.settings().set('auto_upload', True)

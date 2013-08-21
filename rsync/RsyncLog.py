@@ -29,7 +29,7 @@ class RsyncLog:
     def get_time(self):
         return datetime.now().strftime("%Y-%m-%d %H:%M") + ':\n'
 
-    def append(self, value):
+    def log(self, value):
         value = self.get_time() + value
         self.log.append(value + '\n\n')
         if len(self.log) > self.get_max():
