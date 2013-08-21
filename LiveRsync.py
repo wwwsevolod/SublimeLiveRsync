@@ -15,7 +15,7 @@ class LiveRsync(EventListener):
     controller = controller
 
     def on_close(self, view):
-        if view.name() is 'LiveRsync Live Log':
+        if view.name() == RsyncLogSingletone().get_log_view_name():
             RsyncLogSingletone().hide()
 
     def on_post_save_async(self, view):
