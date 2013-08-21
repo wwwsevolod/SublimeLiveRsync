@@ -1,18 +1,19 @@
 from os import popen
+from .RsyncLog import RsyncLogSingletone
 
 
 class Rsync(object):
-    def __init__(self, view, settings):
+    def __init__(self, view, settings, full):
         self.view = view
-        self.prepare(settings)
+        self.prepare(settings, full)
         self.query(self.generate_cmd())
 
-    def prepare(self, settings):
+    def prepare(self, settings, full):
         self.source = settings['source']
         self.destination = settings['destination']
         self.ssh = settings['ssh']
-        self.full_update = settings['full_update']
-        self.settings = settings['settings']
+        self.full_update = settings['full_update_on_start'] if full else False
+        self.settings = settings['sync_settings']
         self.exclude = settings['exclude']
 
     def generate_cmd(self):
@@ -22,19 +23,22 @@ class Rsync(object):
         exclude = self.exclude
         if not self.full_update:
             src, dest = self.make_file_names(src, dest, file_name)
+        else:
+            src += '/'
         if self.ssh:
             ssh = '-e ssh'
         else:
             ssh = ''
         cmd = "rsync " + src + " --exclude " + exclude
-        cmd = cmd + " " + dest + " -" + self.settings
+        cmd = cmd + " -" + self.settings
         cmd = cmd + " " + ssh + " " + dest
         return cmd
 
     def query(self, cmd):
         self.view.set_status('uploading', 'uploading!!1')
-        print('LIVERSYNC', cmd)
-        popen(cmd).read()
+        log = RsyncLogSingletone()
+        log.append(cmd)
+        log.append(popen(cmd).read())
         self.view.set_status('uploading', 'done!!11')
 
     def make_file_names(self, src, dest, file_name):

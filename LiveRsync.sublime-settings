@@ -1,0 +1,8 @@
+{
+    "sync_settings" : "urvz",
+    "exclude" : "nothingtoexcludewtf",
+    "full_update_on_start" : false,
+    "ssh" : true,
+    "auto_upload" : true,
+    "rsync_log_max" : 50
+}

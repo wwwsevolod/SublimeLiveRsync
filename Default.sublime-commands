@@ -1,0 +1,27 @@
+[
+    {
+        "caption": "LiveRsync: Upload Current File",
+        "command": "live_rsync_upload_current",
+        "args": {"action": "current"}
+    },
+    {
+        "caption": "LiveRsync: Upload Full Project",
+        "command": "live_rsync_upload_full",
+        "args": {"action": "full"}
+    },
+    {
+        "caption": "LiveRsync: Disable Auto-uploading",
+        "command": "live_rsync_disable",
+        "args": {"action": "disable"}
+    },
+    {
+        "caption": "LiveRsync: Enable Auto-uploading",
+        "command": "live_rsync_enable",
+        "args": {"action": "enable"}
+    },
+    {
+        "caption": "LiveRsync: Show latest logs",
+        "command": "live_rsync_show_log",
+        "args": {"action": "enable"}
+    }
+]
