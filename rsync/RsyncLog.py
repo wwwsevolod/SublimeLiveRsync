@@ -17,7 +17,7 @@ class RsyncLog:
     panel = None
 
     def __init__(self):
-        self.log = []
+        self.logs = []
 
     def get_log_view_name(self):
         return 'LiveRsync Live Log'
@@ -31,9 +31,9 @@ class RsyncLog:
 
     def log(self, value):
         value = self.get_time() + value
-        self.log.append(value + '\n\n')
-        if len(self.log) > self.get_max():
-            self.log.pop(0)
+        self.logs.append(value + '\n\n')
+        if len(self.logs) > self.get_max():
+            self.logs.pop(0)
         self.update(value)
 
     def get_log_view(self, window):
@@ -53,7 +53,7 @@ class RsyncLog:
             self.panel = window.new_file()
             self.panel.set_scratch(True)
             self.panel.set_name(self.get_log_view_name())
-        for log in self.log:
+        for log in self.logs:
             self.update(log)
 
     def hide(self):
