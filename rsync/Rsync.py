@@ -42,7 +42,10 @@ class Rsync(object):
         self.view.set_status('uploading', 'done!!11')
 
     def make_file_names(self, src, dest, file_name):
-        file_name = file_name.split(src)[1]
-        src = src + file_name
-        dest = dest + file_name
+        splt = file_name.split(src)
+        if len(splt) < 2:
+            return (src, dest)
+        name = splt.pop()
+        src = src + name
+        dest = dest + name
         return (src, dest)
