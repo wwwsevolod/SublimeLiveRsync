@@ -35,11 +35,11 @@ class Rsync(object):
         return cmd
 
     def query(self, cmd):
-        self.view.set_status('uploading', 'uploading!!1')
+        self.view.set_status('uploading', 'LR: Uploading.')
         log = RsyncLogSingletone()
         log.log(cmd)
         log.log(popen(cmd).read())
-        self.view.set_status('uploading', 'done!!11')
+        self.view.set_status('uploading', 'LR: Done.')
 
     def make_file_names(self, src, dest, file_name):
         splt = file_name.split(src)
